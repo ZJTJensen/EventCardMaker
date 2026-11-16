@@ -1,0 +1,9 @@
+{
+ "kind": "equipment",
+ "name": "License to Kill",
+ "type": "Generic Equipment - Off-Hand",
+ "text": "Equip this if able. Otherwise, flip the top card of the event deck.\n\n**Action** - Destroy this: Weapon attacks have **contract**: You are contracted to hit your opponent with a dagger.",
+ "defense": "",
+ "leftVal": "",
+ "gem": "none"
+}

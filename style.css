@@ -1,0 +1,197 @@
+/* Event Card Maker — illuminated-manuscript theme
+   Vellum page, iron-gall ink, rubricated (red) headings, gold leaf, ultramarine & verdigris accents. */
+:root {
+  --vellum: #efe2c4;
+  --vellum-light: #f8f0dc;
+  --vellum-dark: #d8c194;
+  --ink: #2e2014;
+  --ink-soft: #5b4630;
+  --rubric: #a8261d;          /* red ink used for headings */
+  --ultramarine: #2b4a9b;
+  --verdigris: #4f7a3a;
+  --gold: #c9a227;
+  --gold-light: #f3d77a;
+  --gold-dark: #8a6a1a;
+  --rule: #8a6a3a;            /* brown ruling lines */
+
+  --body-font: "IM Fell English", "EB Garamond", Georgia, serif;
+  --caps-font: "IM Fell English SC", "IM Fell English", Georgia, serif;
+  --black-font: "UnifrakturMaguntia", "IM Fell English", serif;
+  --initial-font: "Cinzel Decorative", "Cinzel", Georgia, serif; /* legible decorated capitals */
+
+  /* marginal vine (tiles vertically) */
+  --vine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='140' viewBox='0 0 40 140'%3E%3Cpath d='M20 0C9 23 31 47 20 70S9 117 20 140' fill='none' stroke='%237a5a2a' stroke-width='1.3'/%3E%3Cpath d='M20 34q11-10 16-2q-7 8-16 2z' fill='%234f7a3a'/%3E%3Cpath d='M20 104q-11-10-16-2q7 8 16 2z' fill='%232b4a9b'/%3E%3Ccircle cx='7' cy='18' r='2.3' fill='%23c9a227'/%3E%3Ccircle cx='33' cy='72' r='2.3' fill='%23c9a227'/%3E%3Ccircle cx='9' cy='128' r='2.3' fill='%23c9a227'/%3E%3Ccircle cx='31' cy='12' r='1.6' fill='%23c9a227'/%3E%3Cg transform='translate(9 56)'%3E%3Ccircle cy='-3.4' r='2.6' fill='%23a8261d'/%3E%3Ccircle cy='3.4' r='2.6' fill='%23a8261d'/%3E%3Ccircle cx='-3.4' r='2.6' fill='%23a8261d'/%3E%3Ccircle cx='3.4' r='2.6' fill='%23a8261d'/%3E%3Ccircle r='1.6' fill='%23c9a227'/%3E%3C/g%3E%3Cg transform='translate(30 116)'%3E%3Ccircle cy='-3.4' r='2.6' fill='%232b4a9b'/%3E%3Ccircle cy='3.4' r='2.6' fill='%232b4a9b'/%3E%3Ccircle cx='-3.4' r='2.6' fill='%232b4a9b'/%3E%3Ccircle cx='3.4' r='2.6' fill='%232b4a9b'/%3E%3Ccircle r='1.6' fill='%23c9a227'/%3E%3C/g%3E%3C/svg%3E");
+  /* faint vellum grain */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .25  0 0 0 0 .1  0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  color: var(--ink);
+  font: 16px/1.45 var(--body-font);
+  background-color: var(--vellum);
+  background-image:
+    var(--grain),
+    radial-gradient(ellipse at 50% 40%, rgba(255,250,235,.55) 0%, rgba(255,250,235,0) 60%),
+    radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(120,85,35,.28) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* marginal vines down both edges of the page */
+body::before, body::after {
+  content: ""; position: fixed; top: 0; bottom: 0; width: 40px; z-index: 0;
+  background: var(--vine) repeat-y; opacity: .85; pointer-events: none;
+}
+body::before { left: 6px; }
+body::after  { right: 6px; transform: scaleX(-1); }
+
+/* ---------- Header (the rubricated title band) ---------- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 10px 60px; position: sticky; top: 0; z-index: 5; flex-wrap: wrap;
+  background: var(--vellum-light) var(--grain);
+  border-bottom: 4px double var(--rubric);
+  box-shadow: 0 2px 0 var(--gold), 0 6px 14px rgba(80,55,20,.18);
+}
+.topbar h1 {
+  font: 400 32px/1 var(--black-font); margin: 0; color: var(--ink); letter-spacing: .01em;
+}
+/* illuminated initial: blue letter on a gold-leaf block */
+.topbar h1::first-letter {
+  font: 900 34px/1 var(--initial-font); color: var(--ultramarine);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-dark));
+  border: 2px solid var(--ultramarine); border-radius: 3px;
+  padding: 2px 7px 4px; margin-right: 3px;
+  box-shadow: inset 0 0 0 2px var(--vellum-light);
+}
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ---------- Buttons ---------- */
+button, .file {
+  font: 400 15px var(--caps-font); letter-spacing: .03em; color: var(--ink);
+  background: var(--vellum-light); border: 1px solid var(--rule); border-radius: 3px;
+  padding: 6px 13px; cursor: pointer;
+  box-shadow: inset 0 0 0 2px var(--vellum-light), inset 0 0 0 3px rgba(138,106,58,.35);
+  transition: background .15s, color .15s;
+}
+button:hover, .file:hover { background: #f1e1b8; color: var(--rubric); }
+button:focus-visible, .file:focus-within { outline: 2px solid var(--ultramarine); outline-offset: 2px; }
+button.primary {
+  color: #2a1c05; border-color: var(--gold-dark);
+  background: linear-gradient(180deg, var(--gold-light), var(--gold) 55%, #a8801a);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 1px 3px rgba(80,55,20,.35);
+  text-shadow: 0 1px 0 rgba(255,240,190,.6);
+}
+button.primary:hover { filter: brightness(1.06); color: #2a1c05; }
+button.ghost { background: transparent; }
+button.small { padding: 4px 9px; font-size: 13px; }
+.file { display: inline-flex !important; flex-direction: row !important; align-items: center; }
+.file input { display: none; }
+
+/* ---------- Layout ---------- */
+.layout {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: minmax(320px, 450px) 1fr; gap: 22px;
+  padding: 22px 60px; align-items: start;
+}
+.controls { display: flex; flex-direction: column; gap: 14px; }
+
+/* each section is a ruled folio panel */
+details {
+  background: rgba(252,246,230,.62);
+  border: 1px solid var(--rule); border-radius: 2px;
+  padding: 2px 16px 12px;
+  box-shadow: inset 0 0 0 3px rgba(252,246,230,.9), inset 0 0 0 4px rgba(168,38,29,.35), 0 2px 8px rgba(80,55,20,.12);
+}
+summary {
+  list-style: none; cursor: pointer; padding: 10px 0 6px;
+  font: 400 19px var(--caps-font); color: var(--rubric); letter-spacing: .04em;
+  border-bottom: 1px solid rgba(138,106,58,.35);
+}
+summary::-webkit-details-marker { display: none; }
+/* drop-cap on every section heading; colours alternate like a real manuscript */
+summary::first-letter { font: 900 26px/1 var(--initial-font); color: var(--ultramarine); padding-right: 2px; }
+details:nth-of-type(even) summary::first-letter { color: var(--verdigris); }
+/* fleuron that turns when the section opens */
+summary::after { content: "❦"; float: right; color: var(--gold-dark); font-size: 18px; transition: transform .2s; }
+details[open] > summary::after { transform: rotate(90deg); }
+details[open] > summary { margin-bottom: 4px; }
+
+/* ---------- Fields ---------- */
+label {
+  display: flex; flex-direction: column; gap: 3px; margin: 9px 0; flex: 1; min-width: 0;
+  color: var(--ink-soft); font: italic 15px var(--body-font);
+}
+label.check { flex-direction: row; align-items: center; gap: 7px; color: var(--ink); font-style: normal; flex: 0 0 auto; }
+input[type=text], textarea, select {
+  width: 100%; color: var(--ink); background: #fbf6e8;
+  border: 1px solid #b89b6a; border-radius: 2px; padding: 7px 9px;
+  font: 16px "EB Garamond", "Palatino Linotype", Georgia, serif; font-style: normal;
+}
+input::placeholder, textarea::placeholder { color: #a8937a; font-style: italic; }
+/* rules text box is ruled like a manuscript page */
+textarea {
+  resize: vertical; line-height: 24px; padding: 6px 10px;
+  background-color: #fbf6e8;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 23px, rgba(168,38,29,.16) 23px 24px);
+  background-position: 0 6px; background-attachment: local;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none; border-color: var(--rubric); box-shadow: 0 0 0 2px rgba(201,162,39,.45);
+}
+input[type=checkbox] { accent-color: var(--rubric); width: 16px; height: 16px; }
+input[type=range] { width: 100%; accent-color: var(--rubric); }
+input[type=color] { width: 100%; height: 32px; padding: 2px; background: #fbf6e8; border: 1px solid #b89b6a; border-radius: 2px; }
+output { color: var(--rubric); font-style: normal; }
+.row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+.row > button, .row > .file { margin: 9px 0; }
+.hint { color: var(--ink-soft); font-size: 14px; margin: 4px 0; line-height: 1.6; }
+.hint code {
+  font: 13px "EB Garamond", Georgia, serif; color: var(--rubric);
+  background: rgba(168,38,29,.07); border: 1px dotted rgba(168,38,29,.5); border-radius: 2px; padding: 0 5px;
+}
+
+/* ---------- Event / Equipment toggle ---------- */
+.seg {
+  display: flex; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; margin: 4px 0 6px;
+  background: var(--vellum-light);
+  box-shadow: inset 0 0 0 2px var(--vellum-light), inset 0 0 0 3px rgba(138,106,58,.35);
+}
+.seg button { flex: 1; border: 0; border-radius: 0; background: transparent; padding: 8px; box-shadow: none; }
+.seg button + button { border-left: 1px solid var(--rule); }
+.seg button.on {
+  background: var(--ultramarine); color: var(--vellum-light);
+  box-shadow: inset 0 0 0 2px var(--ultramarine), inset 0 0 0 3px var(--gold);
+}
+.topbar .seg { margin: 0; flex: 0 1 360px; }
+.topbar .seg button { padding: 7px 14px; white-space: nowrap; font-size: 16px; }
+
+body.kind-event .equip-only { display: none; }
+body.kind-equipment .event-only { display: none; }
+body:not(.ally) .ally-only { display: none; }
+body.offhand .def-field { display: none; }
+
+/* ---------- Preview (the card on its lectern) ---------- */
+.preview { position: sticky; top: 86px; display: flex; flex-direction: column; align-items: center; }
+.canvasWrap {
+  width: min(100%, 540px); padding: 16px;
+  background: rgba(252,246,230,.5);
+  border: 1px solid var(--rule); border-radius: 2px;
+  box-shadow: inset 0 0 0 4px rgba(252,246,230,.9), inset 0 0 0 5px var(--gold), 0 3px 12px rgba(80,55,20,.18);
+}
+#card {
+  width: 100%; height: auto; display: block; cursor: grab; touch-action: none;
+  filter: drop-shadow(0 10px 22px rgba(60,40,10,.4));
+}
+#card.dragging { cursor: grabbing; }
+.status { min-height: 22px; color: var(--rubric); font: italic 15px var(--body-font); margin-top: 10px; }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 860px) {
+  body::before, body::after { display: none; }
+  .topbar { padding: 10px 16px; }
+  .layout { grid-template-columns: 1fr; padding: 14px 16px; }
+  .preview { position: static; order: -1; }
+}

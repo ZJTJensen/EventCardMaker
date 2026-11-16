@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Event Card Maker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500;1,700&family=EB+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Alegreya+SC:wght@500;700&family=Inter:wght@400;600&family=UnifrakturMaguntia&family=Cinzel+Decorative:wght@700;900&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <h1>Event Card Maker</h1>
+  <div class="seg" id="kindSeg">
+    <button data-kind="event">Event</button>
+    <button data-kind="equipment">Event Equipment</button>
+  </div>
+  <div class="actions">
+    <button id="btnNew" class="ghost">New</button>
+    <button id="btnExport" class="primary">Export PNG</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="controls">
+
+    <details open>
+      <summary>Card</summary>
+      <label>Card name<input data-key="name" type="text"></label>
+      <div class="event-only">
+        <label class="check"><input data-key="ally" type="checkbox"> Ally (type line becomes “Event - Ally”)</label>
+        <div class="row ally-only">
+          <label>Power<input data-key="power" type="text" maxlength="3" placeholder="blank"></label>
+          <label>Life<input data-key="life" type="text" maxlength="3" placeholder="blank"></label>
+        </div>
+      </div>
+      <label class="equip-only">Type line
+        <input data-key="type" type="text" list="typePresets">
+        <datalist id="typePresets">
+          <option value="Generic Equipment - Head">
+          <option value="Generic Equipment - Chest">
+          <option value="Generic Equipment - Arms">
+          <option value="Generic Equipment - Legs">
+          <option value="Generic Equipment - Off-Hand">
+          <option value="Generic Equipment">
+        </datalist>
+      </label>
+      <label>Rules text
+        <textarea data-key="text" rows="8" spellcheck="true"></textarea>
+      </label>
+      <p class="hint">
+        <code>**bold**</code> <code>*italic*</code> &nbsp;icons: <code>{r}</code> resource <code>{p}</code> power <code>{d}</code> defense <code>{l}</code> life <code>{i}</code> intellect
+        &nbsp;· a line with <code>---</code> draws a divider · blank line = new paragraph
+      </p>
+      <div class="row">
+        <label class="check"><input data-key="autoBold" type="checkbox"> Auto-bold keywords</label>
+        <label class="check"><input data-key="autoItalic" type="checkbox"> Italic (reminder text)</label>
+      </div>
+      <div class="equip-only">
+        <div class="row">
+          <label class="check"><input data-key="offhand" type="checkbox"> Off-hand frame (no defense)</label>
+          <label class="def-field">Defense<input data-key="defense" type="text" maxlength="3" placeholder="blank"></label>
+        </div>
+      </div>
+    </details>
+
+    <details open>
+      <summary>Artwork</summary>
+      <div class="row">
+        <label class="file">Upload art<input id="artFile" type="file" accept="image/*"></label>
+        <button id="artClear" class="ghost small">Remove</button>
+        <button id="artReset" class="ghost small">Reset position</button>
+      </div>
+      <p class="hint">Drag the art on the preview to move it; scroll to zoom.</p>
+      <label>Zoom <output data-out="artZoom"></output><input data-key="artZoom" type="range" min="0.2" max="4" step="0.01"></label>
+    </details>
+
+    <details>
+      <summary>Collector line</summary>
+      <div class="row">
+        <label>Set / number<input data-key="setCode" type="text" placeholder="SMP020"></label>
+        <label>Rarity
+          <select data-key="rarity">
+            <option value="">None</option>
+            <option value="C">Common</option>
+            <option value="R">Rare</option>
+            <option value="S">Super Rare</option>
+            <option value="M">Majestic</option>
+            <option value="L">Legendary</option>
+            <option value="F">Fabled</option>
+            <option value="P">Promo</option>
+            <option value="T">Token</option>
+          </select>
+        </label>
+      </div>
+      <label>Artist<input data-key="artist" type="text"></label>
+      <label>Creator's name<input data-key="copyright" type="text" placeholder="Shown bottom-right of the card"></label>
+    </details>
+
+    <details>
+      <summary>Typography</summary>
+      <div class="row">
+        <label>Font<select data-key="textFont" class="fontSel"></select></label>
+        <label class="check"><input data-key="nameBold" type="checkbox"> Bold name</label>
+      </div>
+      <label>Name size <output data-out="nameSize"></output><input data-key="nameSize" type="range" min="50" max="150" step="1"></label>
+      <label>Rules size <output data-out="textSize"></output><input data-key="textSize" type="range" min="50" max="160" step="1"></label>
+      <label>Type size <output data-out="typeSize"></output><input data-key="typeSize" type="range" min="50" max="150" step="1"></label>
+      <div class="row">
+        <label>Align
+          <select data-key="align"><option value="center">Centre</option><option value="left">Left</option></select>
+        </label>
+        <label>Vertical
+          <select data-key="valign"><option value="middle">Middle</option><option value="top">Top</option></select>
+        </label>
+      </div>
+      <div class="row">
+        <label>Name<input data-key="nameColor" type="color"></label>
+        <label>Rules<input data-key="textColor" type="color"></label>
+        <label>Type<input data-key="typeColor" type="color"></label>
+        <label>Footer<input data-key="footerColor" type="color"></label>
+      </div>
+      <label>Keywords to auto-bold (comma separated)
+        <textarea data-key="keywords" rows="3"></textarea>
+      </label>
+    </details>
+
+    <details>
+      <summary>Layout fine-tuning</summary>
+      <p class="hint">Nudge elements (in pixels on the 1092×1524 export).</p>
+      <label>Name ↕ <output data-out="nameDy"></output><input data-key="nameDy" type="range" min="-60" max="60" step="1"></label>
+      <label>Rules box top <output data-out="textTopDy"></output><input data-key="textTopDy" type="range" min="-150" max="150" step="1"></label>
+      <label>Rules box bottom <output data-out="textBotDy"></output><input data-key="textBotDy" type="range" min="-150" max="150" step="1"></label>
+      <label>Rules box sides <output data-out="textPadDx"></output><input data-key="textPadDx" type="range" min="-60" max="120" step="1"></label>
+      <label>Type line ↕ <output data-out="typeDy"></output><input data-key="typeDy" type="range" min="-60" max="60" step="1"></label>
+      <label>Footer ↕ <output data-out="footerDy"></output><input data-key="footerDy" type="range" min="-60" max="30" step="1"></label>
+      <div class="row">
+        <label class="file">Use my own frame<input id="frameFile" type="file" accept="image/png"></label>
+        <button id="frameReset" class="ghost small">Default frame</button>
+      </div>
+      <button id="layoutReset" class="ghost small">Reset layout &amp; typography</button>
+    </details>
+  </section>
+
+  <section class="preview">
+    <div class="canvasWrap"><canvas id="card"></canvas></div>
+    <div class="status" id="status"></div>
+  </section>
+</main>
+
+<script src="assets/frames.js"></script>
+<script src="assets/icons.js"></script><script src="app.js"></script>
+</body>
+</html>
